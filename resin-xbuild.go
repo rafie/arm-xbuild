@@ -8,10 +8,18 @@ import (
 )
 
 func crossBuildStart() {
+	if _, err := os.Stat("/bin/sh.real"); os.IsNotExist(err) {
+		err = os.Link("/bin/sh", "/bin/sh.real")
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
 	err := os.Remove("/bin/sh")
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	err = os.Link("/usr/bin/resin-xbuild", "/bin/sh")
 	if err != nil {
 		log.Fatal(err)
@@ -30,7 +38,12 @@ func crossBuildEnd() {
 }
 
 func runShell() error {
-	cmd := exec.Command("/usr/bin/qemu-aarch64-static", append([]string{"-0", "/bin/sh", "/bin/sh"}, os.Args[1:]...)...)
+	if _, err := os.Stat("/usr/bin/qemu-arm-static"); err == nil {
+		cmd := exec.Command("/usr/bin/qemu-arm-static", append([]string{"-execve", "-0", os.Args[0], "/bin/sh"}, os.Args[1:]...)...)
+	} else {
+		cmd := exec.Command("/usr/bin/qemu-aarch64-static", append([]string{"-execve", "-0", os.Args[0], "/bin/sh"}, os.Args[1:]...)...)
+	}
+	
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -43,7 +56,7 @@ func main() {
 		crossBuildStart()
 	case "cross-build-end":
 		crossBuildEnd()
-	case "/bin/sh":
+	default:
 		code := 0
 		crossBuildEnd()
 
