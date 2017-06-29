@@ -16,6 +16,8 @@ To pull it locally use
 docker pull docker pull project31/aarch64-alpine-qemu
 ```
 
+Now you can start using it, or you can read on if you want to build it yourself.
+
 ## Static aarch64 qemu binary
 
 Feel free to skip this if you don't want to build your own qemu as a static qemu binary is already provided in the bin directory. This binary emulates a aarch64 architure while running on x86.  To build it, we added a build script in the qemu directory. This script is meant to be executed inside a debian container, so use
