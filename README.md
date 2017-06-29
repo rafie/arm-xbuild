@@ -4,7 +4,7 @@
 
 If you are like me and you are interested in building containers for the aarch64/arm64 chip architecture then you have come to the right place. This git repo adds qemu to an aarch64 Alpine 3.5 image. It also contains a go based script that allows you do start intercepting all shell commands and start executing them on qemu. This allows you to build aarch64 images on a x86 machine like dockerhub!
 
-## Use the container
+## Use the cross-build container
 
 We've already done the work below and our container can be found here:
 
@@ -16,7 +16,19 @@ To pull it locally use
 docker pull docker pull project31/aarch64-alpine-qemu
 ```
 
-Now you can start using it, or you can read on if you want to build it yourself.
+Now you can start using it in your Dockerfile. Simply use
+
+```
+FROM docker.io/project31/aarch64-alpine-qemu:3.5
+RUN [ "cross-build-start" ]
+...
+whatever you need to do in your Dockerfile
+...
+RUN [ "cross-build-end" ]
+```
+
+For a working example see: https://hub.docker.com/r/project31/aarch64-docker-openvpn/~/dockerfile/
+That's it! Or you can read on if you want to build it yourself. 
 
 ## Static aarch64 qemu binary
 
