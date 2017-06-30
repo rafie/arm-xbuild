@@ -1,4 +1,4 @@
-# Add cross-build capability to an Alpine 3.5 image.
+# Add cross-build capability to a Centos 7 image.
 
 ## Intro
 
@@ -8,18 +8,12 @@ If you are like me and you are interested in building containers for the aarch64
 
 We've already done the work below and our container can be found here:
 
-https://hub.docker.com/r/project31/aarch64-alpine-qemu/
-
-To pull it locally use
-
-```
-docker pull docker pull project31/aarch64-alpine-qemu
-```
+https://hub.docker.com/r/project31/aarch64-centos-qemu/
 
 Now you can start using it in your Dockerfile. Simply use
 
 ```
-FROM docker.io/project31/aarch64-alpine-qemu:3.5
+FROM docker.io/project31/aarch64-centos-qemu
 RUN [ "cross-build-start" ]
 ...
 whatever you need to do in your Dockerfile
