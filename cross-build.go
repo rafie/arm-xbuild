@@ -20,7 +20,7 @@ func crossBuildStart() {
 		log.Fatal(err)
 	}
 
-	err = os.Link("/usr/bin/resin-xbuild", "/bin/sh")
+	err = os.Link("/usr/bin/cross-build", "/bin/sh")
 	if err != nil {
 		log.Fatal(err)
 	}
