@@ -1,3 +1,3 @@
-FROM docker.io/project31/aarch64-centos:7.3.1611
+FROM multiarch/alpine:aarch64-latest-stable
 
 COPY bin/ /usr/bin/
