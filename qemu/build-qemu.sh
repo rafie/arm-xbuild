@@ -16,10 +16,15 @@ echo -e "deb http://ftp.debian.org/debian jessie-backports main\ndeb-src http://
 # Install all required development packages
 apt-get update && apt-get build-dep qemu
 
+export GIT_SSL_NO_VERIFY=true
+apt-get install git
+
 # Clone a fork of QEMU that supports permanent EXECVE ( see https://resin.io/blog/building-arm-containers-on-any-x86-machine-even-dockerhub/ )
-git clone https://github.com/julianxhokaxhiu/qemu.git
+git clone https://github.com/resin-io/qemu.git
+#git clone https://github.com/julianxhokaxhiu/qemu.git
 cd qemu
-git checkout execve-2.9
+#git checkout execve-2.9
+git checkout resin-2.9.0
 
 # Build the binaries in a static old fashion way
 mkdir build
