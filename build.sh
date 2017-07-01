@@ -1,3 +1,3 @@
 #!/bin/bash
 
-go build -ldflags "-w -s" resin-xbuild.go
+go build -ldflags "-w -s" cross-build.go
