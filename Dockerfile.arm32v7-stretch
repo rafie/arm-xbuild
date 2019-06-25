@@ -1,6 +1,6 @@
-# BUILD redisfab/arm32v7-xbuild:bionic
+# BUILD redisfab/arm32v7-xbuild:stretch
 
-FROM multiarch/ubuntu-core:armhf-bionic
+FROM debian:stretch-slim
 
 COPY bin/ /usr/bin/
 RUN rm -f /usr/bin/qemu-aarch64-static

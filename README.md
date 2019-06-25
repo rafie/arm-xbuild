@@ -56,11 +56,11 @@ Cross-build images can be cascaded, thus it is possible to create an image that 
 
 Cross-build images should be built on a native ARM system. It is possible to build both arm32v7 and arm64v8 on the latter system. For that purpose, one can use an emulated VM on QEMU/KVM, a physical RPi device, on an AWS EC2 machine.
 
-The standard way to build for the docker.io/redisfab repo is:
+The standard way to build for the docker.io/redisfab repo is (Docker experimental features are required):
 
 ```
-docker build --rm -t redisfab/arm32v7-xbuild:bionic -f Dockerfile.arm32v7 .
-docker build --rm -t redisfab/arm64v8-xbuild:bionic -f Dockerfile.arm64v8 .
+docker build --squash --rm -t redisfab/arm32v7-xbuild:stretch -f Dockerfile.arm32v7-stretch .
+docker build --squash --rm -t redisfab/arm64v8-xbuild:stretch -f Dockerfile.arm64v8-stretch .
 ```
 
 ## Building QEMU binaries
