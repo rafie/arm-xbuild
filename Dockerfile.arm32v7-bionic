@@ -1,0 +1,13 @@
+# BUILD redisfab/arm32v7-xbuild:bionic
+
+# instead of simply FROM ubuntu:bionic
+# references:
+# * https://hub.docker.com/r/multiarch/ubuntu-core/
+# * https://github.com/multiarch/ubuntu-core
+# * https://github.com/docker-library/official-images#architectures-other-than-amd64
+FROM multiarch/ubuntu-core:armhf-bionic
+
+COPY bin/ /usr/bin/
+RUN rm -f /usr/bin/qemu-aarch64-static
+RUN chown root:root /usr/bin/qemu-*-static ;\
+	chmod 755 /usr/bin/qemu-*-static
