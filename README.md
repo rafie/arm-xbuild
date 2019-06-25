@@ -1,52 +1,93 @@
-# Add cross-build capability to a Centos 7 image.
+# Cross-build container for ARM platforms
 
-## Intro
+## Synopsis
 
-If you are like me and you are interested in building containers for the aarch64/arm64 chip architecture then you have come to the right place. This git repo adds qemu to an aarch64 Alpine 3.5 image. It also contains a go based script that allows you do start intercepting all shell commands and start executing them on qemu. This allows you to build aarch64 images on a x86 machine like dockerhub!
+This container allows building of ARM (arm32v7, arm64v8) images on a x64 machine.
 
-## Use the cross-build container
+It uses a Go-based script that intercepts Docker shell commands and executes them with a user-mode QEMU emulator (a.k.a qemu-arm-static).
 
-We've already done the work below and our container can be found here:
+The image is based on a core variant of Ubuntu LTS 18.04.02 (Bionic Beaver), but it can easily be replaced by and other Linux distribution.
 
-https://hub.docker.com/r/project31/aarch64-centos-qemu/
+## Usage
 
-Now you can start using it in your Dockerfile. Simply use
+For arm32v7 architecture (32-bit ARM CPU, a.k.a arm7l, armhf), use:
 
 ```
-FROM docker.io/project31/aarch64-centos-qemu
+FROM redisfab/arm64v8-xbuild:bionic
 RUN [ "cross-build-start" ]
 ...
-whatever you need to do in your Dockerfile
+# your code here
 ...
 RUN [ "cross-build-end" ]
 ```
 
-For a working example see: https://hub.docker.com/r/project31/aarch64-docker-openvpn/~/dockerfile/
-That's it! Or you can read on if you want to build it yourself. 
+For arm64v8 architecture (64-bit ARM CPU, a.k.a ARMv8-A, aarch64), use:
 
-## Build the static aarch64 qemu binary
+```
+FROM redisfab/arm32v7-xbuild:bionic
+RUN [ "cross-build-start" ]
+...
+# your code here
+...
+RUN [ "cross-build-end" ]
+```
 
-Feel free to skip this if you don't want to build your own qemu as a static qemu binary is already provided in the bin directory. This binary emulates a aarch64 architure while running on x86.  To build it, we added a build script in the qemu directory. This script is meant to be executed inside a debian container, so use
+For Dockerfiles with multiple FROM sections, duplicate the "cross-build" commands:
+
+```
+FROM redisfab/arm32v7-xbuild:bionic as builder
+RUN [ "cross-build-start" ]
+...
+# your code here
+...
+RUN [ "cross-build-end" ]
+
+FROM redisfab/arm32v7-xbuild:bionic
+RUN [ "cross-build-start" ]
+...
+# your code here
+...
+RUN [ "cross-build-end" ]
+```
+
+Cross-build images can be cascaded, thus it is possible to create an image that will in turn be used to cross-build other images.
+
+## Building cross-build images
+
+Cross-build images should be built on a native ARM system. It is possible to build both arm32v7 and arm64v8 on the latter system. For that purpose, one can use an emulated VM on QEMU/KVM, a physical RPi device, on an AWS EC2 machine.
+
+The standard way to build for the docker.io/redisfab repo is:
+
+```
+docker build --rm -t redisfab/arm32v7-xbuild:bionic -f Dockerfile.arm32v7 .
+docker build --rm -t redisfab/arm64v8-xbuild:bionic -f Dockerfile.arm64v8 .
+```
+
+## Building QEMU binaries
+
+This binary emulates a arm64v8 architecture while running on x64. To build it, we added a build script in the qemu/ directory. This script is meant to be executed inside a Debian container, so use:
 
 ```
 docker run -it debian bash
 ```
 
-and then run the build script. If you want to build a static qemu image for plain arm, you should change the `--target-list=aarch64-linux-user` configuration option to `--target-list=arm-linux-user`. Make sure to only ship one qemu library in your docker container, or the resin-xbuild.go script may get tripped up. Finally copy the qemu binary into the bin directory of this project.
+and then run the build script. If you want to build a static QEMU image for arm32v7, you should change the `--target-list=aarch64-linux-user` configuration option to `--target-list=arm-linux-user`. Finally copy the QEMU binary into the bin directory of this project.
 
-## Build the cross-build scripts.
+## Building the cross-build scripts
 
-Feel free to skip this step if you don't want to compile your own scripts. The cross-build scripts are meant to be executed on x86. So if you want to rebuild this script please use GOARCH=amd64. A compiled version is already supplied in the bin directory.
-
-## Build the Docker base container.
-
-To build the docker container use
-
-```
-docker build . 
-```
+The cross-build scripts are meant to be executed on x64, thus should be compiled with GOARCH=amd64. A compiled version is already supplied in the bin/ directory.
 
 ## Reference
 
-[1] Build ARM container on x86: https://resin.io/blog/building-arm-containers-on-any-x86-machine-even-dockerhub/
+[1] [Building ARM containers on any x86 machine, even DockerHub](Building ARM containers on any x86 machine, even DockerHub)
+
+[2] https://hub.docker.com/r/project31/aarch64-centos-qemu/
+
+[3]  https://hub.docker.com/r/project31/aarch64-docker-openvpn/~/dockerfile/
+
+[4] https://hub.docker.com/r/multiarch/ubuntu-core/
+
+[5] https://github.com/multiarch/ubuntu-core
+
+[6] https://github.com/docker-library/official-images#architectures-other-than-amd64 
 
