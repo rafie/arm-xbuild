@@ -1,4 +1,4 @@
-FROM redisfab/arm64v8-xbuild:bionic
+FROM redisfab/arm64v8-xbuild:stretch
 
 RUN [ "cross-build-start" ]
 
