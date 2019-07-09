@@ -4,7 +4,7 @@ OSNICK ?= stretch
 REPO=redisfab
 
 ifeq ($(ARCH),x64)
-$(error No can do.)
+$(error Cannot build this image on x64 platform; use an ARM machine)
 endif
 
 BUILD_OPT=--rm --squash
