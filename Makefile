@@ -1,6 +1,6 @@
 
 ARCH:=$(shell ./deps/readies/bin/platform --arch)
-OSNICK ?= stretch
+OSNICK ?= buster
 REPO=redisfab
 
 ifeq ($(ARCH),x64)

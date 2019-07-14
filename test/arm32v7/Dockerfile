@@ -1,4 +1,4 @@
-FROM redisfab/arm32v7-xbuild:stretch
+FROM redisfab/arm32v7-xbuild:buster
 
 RUN [ "cross-build-start" ]
 

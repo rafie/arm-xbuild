@@ -1,5 +1,5 @@
-# stretch|bionic
-ARG OSNICK=stretch
+# stretch|bionic|buster
+ARG OSNICK=buster
 
 # arm32v7|arm64v8
 ARG ARCH=arm64v8

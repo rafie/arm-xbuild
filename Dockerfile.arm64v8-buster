@@ -1,0 +1,8 @@
+# BUILD redisfab/arm64v8-xbuild:buster
+
+FROM debian:buster-slim
+
+COPY bin/ /usr/bin/
+RUN rm -f /usr/bin/qemu-arm-static
+RUN chown root:root /usr/bin/qemu-*-static ;\
+	chmod 755 /usr/bin/qemu-*-static
