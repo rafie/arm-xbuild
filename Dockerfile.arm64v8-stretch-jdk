@@ -1,0 +1,15 @@
+# BUILD redisfab/arm64v8-jdk-xbuild:stretch
+
+FROM debian:stretch-slim
+
+COPY bin/ /usr/bin/
+RUN rm -f /usr/bin/qemu-arm-static
+RUN set -e ;\
+	chown root:root /usr/bin/qemu-*-static ;\
+	chmod 755 /usr/bin/qemu-*-static
+
+ENV DEBIAN_FRONTEND=noninteractive 
+
+RUN apt-get -qq update
+RUN mkdir -p /usr/share/man/man1
+RUN apt-get -q install -y openjdk-8-jdk

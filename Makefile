@@ -7,7 +7,8 @@ ifeq ($(ARCH),x64)
 $(error Cannot build this image on x64 platform; use an ARM machine)
 endif
 
-BUILD_OPT=--rm --squash
+BUILD_OPT=--rm
+# --squash
 
 .PHONY: build public
 
