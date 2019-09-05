@@ -79,7 +79,7 @@ The cross-build scripts are meant to be executed on x64, thus should be compiled
 
 ## Reference
 
-[1] [Building ARM containers on any x86 machine, even DockerHub](Building ARM containers on any x86 machine, even DockerHub)
+[1] [Building ARM containers on any x86 machine, even DockerHub](https://www.balena.io/blog/building-arm-containers-on-any-x86-machine-even-dockerhub/)
 
 [2] https://hub.docker.com/r/project31/aarch64-centos-qemu/
 
@@ -90,4 +90,6 @@ The cross-build scripts are meant to be executed on x64, thus should be compiled
 [5] https://github.com/multiarch/ubuntu-core
 
 [6] https://github.com/docker-library/official-images#architectures-other-than-amd64 
+
+[7] https://github.com/balena-io/qemu
 
