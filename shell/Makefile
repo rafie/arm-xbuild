@@ -3,9 +3,13 @@ ROOT=../..
 
 LAB=-v $(realpath $(ROOT)):/lab
 
-ARM6_IMAGE=balenalib/raspberrypi3-debian
-ARM7_IMAGE=arm32v7/debian:buster
-ARM8_IMAGE=arm64v8/debian:buster
+ARM6_IMAGE=multiarch/debian-debootstrap:armel-buster
+ARM7_IMAGE=multiarch/debian-debootstrap:armhf-buster
+ARM8_IMAGE=multiarch/debian-debootstrap:arm64-buster
+
+# ARM6_IMAGE=balenalib/raspberrypi3-debian
+# ARM7_IMAGE=arm32v7/debian:buster
+# ARM8_IMAGE=arm64v8/debian:buster
 
 # ARM6_IMAGE=raspbian/stretch
 # ARM7_IMAGE=arm32v7/debian:stretch
