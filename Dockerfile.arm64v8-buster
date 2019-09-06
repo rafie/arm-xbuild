@@ -1,11 +1,8 @@
 # BUILD redisfab/arm64v8-xbuild:buster
 
-FROM multiarch/qemu-user-static:x86_64-aarch64-4.1.0-1 as qemu
-
 FROM debian:buster-slim
 
 COPY bin/ /usr/bin/
-COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin/
 
 RUN rm -f /usr/bin/qemu-arm-static
 RUN chown root:root /usr/bin/qemu-*-static ;\
