@@ -1,6 +1,6 @@
 # BUILD redisfab/arm64v8-xbuild:buster
 
-FROM debian:buster-slim
+FROM debian:10.10-slim
 
 COPY bin/ /usr/bin/
 
